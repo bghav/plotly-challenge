@@ -2,7 +2,7 @@ function init() {
     //chart//select
     var selector =d3.select("#selDataset");
     
-        d3.json("bellybutton_code/samples.json").then((data) => {
+        d3.json("./samples.json").then((data) => {
         console.log(data)
 
         var sample_Names = data.names;
@@ -30,7 +30,7 @@ init()
 
 function buildCharts(sample) {
     console.log(sample)
-    d3.json("bellybutton_code/samples.json").then((data) => {
+    d3.json("./samples.json").then((data) => {
         var samples = data.samples;
         var resultArray = samples.filter(sampleObj => sampleObj.id == sample)
         var result = resultArray[0]
@@ -86,7 +86,7 @@ function buildCharts(sample) {
 function buildMetadata(sample){
   //console.log(sample)
 
-  d3.json("bellybutton_code/samples.json").then((data) => {
+  d3.json("./samples.json").then((data) => {
       var samples = data.metadata;
       var resultArray = samples.filter(sampleObj => sampleObj.id == sample)
       var result = resultArray[0]
