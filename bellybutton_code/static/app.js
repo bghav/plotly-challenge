@@ -1,34 +1,23 @@
-function init() {
-    //chart//select
-    var selector =d3.select("#selDataset");
-    
-        d3.json("./samples.json").then((data) => {
-        console.log(data)
+function buildMetadata(sample){
+    //console.log(sample)
+  
+    d3.json("./samples.json").then((data) => {
+        var metadata = data.metadata;
+        console.log(metadata)
+        var resultArray = metadata.filter(sampleObj => sampleObj.id == sample)
+        var result = resultArray[0]
+  
+        var PANEL = d3.select("#sample-metadata")
+        PANEL.html("");
+  
+        Object.entries(result).forEach(([key, values]) => {
+            PANEL.append("h6").text(`${key.toUpperCase()}: ${value}`);
+    });
+  
+  })
+  }
 
-        var sample_Names = data.names;
-            sample_Names.forEach((sample) => {
-            selector
-                .append("option")
-                .text(sample)
-                .property("value",sample);
-
-
-      })
-
-      var firstSample = sample_Names[0]
-
-      buildCharts(firstSample);
-    })
-}
-
-function optionChanged(newSample) {
-    buildCharts(newSample);
-    // buildMetadata
-    
-}
-init()
-
-function buildCharts(sample) {
+  function buildCharts(sample) {
     console.log(sample)
     d3.json("./samples.json").then((data) => {
         var samples = data.samples;
@@ -83,21 +72,38 @@ function buildCharts(sample) {
     })
     }
 
-function buildMetadata(sample){
-  //console.log(sample)
+function init() {
+    //chart//select
+    var selector =d3.select("#selDataset");
+    
+        d3.json("./samples.json").then((data) => {
+        console.log(data)
 
-  d3.json("./samples.json").then((data) => {
-      var samples = data.metadata;
-      var resultArray = samples.filter(sampleObj => sampleObj.id == sample)
-      var result = resultArray[0]
+        var sample_Names = data.names;
+            sample_Names.forEach((sample) => {
+            selector
+                .append("option")
+                .text(sample)
+                .property("value",sample);
 
-      var PANEL = d3.select("#sample-metadata")
-      PANEL.html("");
 
-      Object.entries(result).forEach(([key, values]) => {
-          PANEL.append("h6").text(`${key.toUpperCase()}: ${value}`);
-  });
+      })
 
-})
+      var firstSample = sample_Names[0]
+
+      buildCharts(firstSample);
+      buildMetadata(firstSample);
+    })
+      
 }
+
+function optionChanged(newSample) {
+    buildCharts(newSample);
+    buildMetadata(newSample)
+    
+}
+init();
+
+
+
 
